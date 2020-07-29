@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping(path="/{id}")
     public User getSingleUser(@PathVariable Long id) {
-        User oneUser = userService.getOneUser(id);
+        User oneUser = userService.getUserById(id);
         return oneUser;
     }
 
@@ -41,5 +41,11 @@ public class UserController {
     @DeleteMapping(path="/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping(path="/email/{email}")
+    public User getUserByEmail(@PathVariable String email) {
+        User oneUser = userService.getUserByEmail(email);
+        return oneUser;
     }
 }

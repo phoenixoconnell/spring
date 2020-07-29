@@ -8,11 +8,13 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User getOneUser(Long id);
+    User getUserById(Long id);
 
     void createUser(User user);
 
     void updateUser(User user);
 
     void deleteUser(Long id);
+
+    User getUserByEmail(String email);
 }
