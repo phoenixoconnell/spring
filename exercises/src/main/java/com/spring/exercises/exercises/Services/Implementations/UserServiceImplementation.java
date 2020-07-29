@@ -26,17 +26,24 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers(int page, int limit) {
-        List<User> returnValue;
+    public List<UserDTO> getAllUsers(int page, int limit) {
+        List<User> returnValue = new ArrayList<User>();
 
         if (page>0) page --;
         PageRequest pageableRequest = PageRequest.of(page, limit);
 
-        Page<User> userPage = userRepository.findAll(pageableRequest);
+        Page<User> userPageList = userRepository.findAll(pageableRequest);
+        returnValue = userPageList.getContent();
 
-        returnValue = userPage.getContent();
+        List<UserDTO> userDTOList = new ArrayList<UserDTO>();
 
-        return returnValue;
+        for (int i = 0; i<returnValue.size(); i++) {
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(returnValue.get(i), userDTO);
+            userDTOList.add(userDTO);
+        }
+
+        return userDTOList;
     }
 
     @Override

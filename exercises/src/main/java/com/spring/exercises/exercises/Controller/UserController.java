@@ -8,6 +8,7 @@ import com.spring.exercises.exercises.dto.UserDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,10 +22,18 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers(@RequestParam(value="page", defaultValue = "1") int page,
+    public List<UserResponse> getAllUsers(@RequestParam(value="page", defaultValue = "1") int page,
                                   @RequestParam(value = "limit", defaultValue = "5") int limit) {
-        List<User> users = userService.getAllUsers(page, limit);
-        return users;
+        List<UserDTO> userDTOList = userService.getAllUsers(page, limit);
+        List<UserResponse> userResponseList = new ArrayList<UserResponse>();
+
+        for (int i = 0; i<userDTOList.size(); i++) {
+            UserResponse userResponse = new UserResponse();
+            BeanUtils.copyProperties(userDTOList.get(i), userResponse);
+            userResponseList.add(userResponse);
+        }
+
+        return userResponseList;
     }
 
     @GetMapping(path="/{id}")

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> getAllUsers(int page, int limit);
+    List<UserDTO> getAllUsers(int page, int limit);
 
     User getUserById(Long id);
 
