@@ -17,8 +17,9 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        List<User> users = userService.getAllUsers();
+    public List<User> getAllUsers(@RequestParam(value="page", defaultValue = "1") int page,
+                                  @RequestParam(value = "limit", defaultValue = "5") int limit) {
+        List<User> users = userService.getAllUsers(page, limit);
         return users;
     }
 
