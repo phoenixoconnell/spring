@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImplementation implements UserService {
@@ -47,10 +46,11 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
-        Optional <User> optionalUser = userRepository.findById(id);
-        User user = optionalUser.get();
-        return user;
+    public UserDTO getUserByUserId(String userId) {
+        User user = userRepository.findByUserId(userId);
+        UserDTO returnValue = new UserDTO();
+        BeanUtils.copyProperties(user, returnValue);
+        return returnValue;
     }
 
     @Override
@@ -71,18 +71,19 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
-        ArrayList<User> users = (ArrayList<User>) userRepository.findAll();
-        for (int i = 0; i<users.size(); i++) {
-            if (users.get(i).getId() == user.getId()) {
-                userRepository.save(user);
-            }
-        }
+    public UserDTO updateUser(UserDTO userDTO) {
+        User foundUser = userRepository.findByUserId(userDTO.getUserId());
+        BeanUtils.copyProperties(userDTO, foundUser);
+        User updatedUser = userRepository.save(foundUser);
+
+        UserDTO returnValue = new UserDTO();
+        BeanUtils.copyProperties(updatedUser, returnValue);
+        return returnValue;
     }
 
     @Override
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(String userId) {
+        userRepository.deleteByUserId(userId);
     }
 
     @Override

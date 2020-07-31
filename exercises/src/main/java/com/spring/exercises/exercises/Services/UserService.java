@@ -9,13 +9,13 @@ public interface UserService {
 
     List<UserDTO> getAllUsers(int page, int limit);
 
-    User getUserById(Long id);
+    UserDTO getUserByUserId(String id);
 
     UserDTO createUser(UserDTO userDTO);
 
-    void updateUser(User user);
+    UserDTO updateUser(UserDTO userDTO);
 
-    void deleteUser(Long id);
+    void deleteUser(String userId);
 
     User getUserByEmail(String email);
 }

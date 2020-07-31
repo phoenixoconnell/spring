@@ -36,10 +36,12 @@ public class UserController {
         return userResponseList;
     }
 
-    @GetMapping(path="/{id}")
-    public User getSingleUser(@PathVariable Long id) {
-        User oneUser = userService.getUserById(id);
-        return oneUser;
+    @GetMapping(path="/{userID}")
+    public UserResponse getUserByUserId(@PathVariable String userId) {
+        UserDTO singleUserDTO = userService.getUserByUserId(userId);
+        UserResponse returnValue = new UserResponse();
+        BeanUtils.copyProperties(singleUserDTO, returnValue);
+        return returnValue;
     }
 
     @PostMapping
@@ -55,14 +57,23 @@ public class UserController {
         return returnUser;
     }
 
-    @PutMapping
-    public void updateUser(@RequestBody User user) {
-        userService.updateUser(user);
+    @PutMapping(path="/{userId}")
+    public UserResponse updateUser(@RequestBody UserRequest userRequest, @PathVariable String userId) {
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(userRequest, userDTO);
+        userDTO.setUserId(userId);
+
+        UserDTO updatedUserDTO = userService.updateUser(userDTO);
+
+        UserResponse returnValue = new UserResponse();
+        BeanUtils.copyProperties(updatedUserDTO, returnValue);
+
+        return returnValue;
     }
 
-    @DeleteMapping(path="/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    @DeleteMapping(path="/{userId}")
+    public void deleteUser(@PathVariable String userId) {
+        userService.deleteUser(userId);
     }
 
     @GetMapping(path="/email/{email}")
