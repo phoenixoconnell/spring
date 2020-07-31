@@ -1,6 +1,5 @@
 package com.spring.exercises.exercises.Services;
 
-import com.spring.exercises.exercises.Model.User;
 import com.spring.exercises.exercises.dto.UserDTO;
 
 import java.util.List;
@@ -17,5 +16,5 @@ public interface UserService {
 
     void deleteUser(String userId);
 
-    User getUserByEmail(String email);
+    UserDTO getUserByEmail(String email);
 }

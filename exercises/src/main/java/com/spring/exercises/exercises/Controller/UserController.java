@@ -2,7 +2,6 @@ package com.spring.exercises.exercises.Controller;
 
 import com.spring.exercises.exercises.Model.Request.UserRequest;
 import com.spring.exercises.exercises.Model.Response.UserResponse;
-import com.spring.exercises.exercises.Model.User;
 import com.spring.exercises.exercises.Services.UserService;
 import com.spring.exercises.exercises.dto.UserDTO;
 import org.springframework.beans.BeanUtils;
@@ -77,8 +76,10 @@ public class UserController {
     }
 
     @GetMapping(path="/email/{email}")
-    public User getUserByEmail(@PathVariable String email) {
-        User oneUser = userService.getUserByEmail(email);
-        return oneUser;
+    public UserResponse getUserByEmail(@PathVariable String email) {
+        UserDTO userDTO = userService.getUserByEmail(email);
+        UserResponse returnValue = new UserResponse();
+        BeanUtils.copyProperties(userDTO, returnValue);
+        return returnValue;
     }
 }

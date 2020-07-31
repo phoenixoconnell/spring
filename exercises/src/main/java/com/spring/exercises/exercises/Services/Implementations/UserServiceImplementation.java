@@ -87,8 +87,10 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        User returnUser = userRepository.findByEmail(email);
-        return returnUser;
+    public UserDTO getUserByEmail(String email) {
+        User foundUser = userRepository.findByEmail(email);
+        UserDTO returnValue = new UserDTO();
+        BeanUtils.copyProperties(foundUser, returnValue);
+        return returnValue;
     }
 }
